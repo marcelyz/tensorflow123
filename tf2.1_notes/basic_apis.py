@@ -96,3 +96,32 @@ print(test)
 print(tf.argmax(test, axis=0))
 print(tf.argmax(test, axis=1))
 
+# forward
+x1 = tf.constant([[5.8, 4.0, 1.2, 0.2]])
+w1 = tf.constant([[-0.8, -0.34, -1.4],
+                  [0.6, 1.3, 0.25],
+                  [0.5, 1.45, 0.9],
+                  [0.65, 0.7, -1.2]])
+b1 = tf.constant([2.52, -3.1, 5.62])
+y = tf.matmul(x1, w1) + b1
+print("x1.shape: ", x1.shape)
+print("w1.shape: ", w1.shape)
+print("b1.shape: ", b1.shape)
+print("y.shape: ", y.shape)
+print("y: ", y)
+
+y_dim = tf.squeeze(y)
+y_pro = tf.nn.softmax(y_dim)
+print("y_dim: ", y_dim)
+print("y_pro: ", y_pro)
+
+# back propagation
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+epoch = 40
+for epoch in range(epoch):
+    with tf.GradientTape() as tape:
+        loss = tf.square(w + 1)
+    grads = tape.gradient(loss, w)
+    w.assign_sub(lr * grads)
+    print("After %s epoch, w is %f, loss is %s " % (epoch, w.numpy(), loss))
