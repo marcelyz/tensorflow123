@@ -97,6 +97,12 @@ print(test)
 print(tf.argmax(test, axis=0))
 print(tf.argmax(test, axis=1))
 
+print(tf.where([True, False, True, False], [1, 2, 3, 4], [5, 6, 7, 8]))
+
+x = tf.constant([2, 4])
+y = tf.constant(2)
+print(tf.math.equal(x, y))
+
 # forward
 x1 = tf.constant([[5.8, 4.0, 1.2, 0.2]])
 w1 = tf.constant([[-0.8, -0.34, -1.4],
@@ -253,3 +259,27 @@ logits = tf.constant([4., 5., 1.])
 print(tf.nn.softmax(logits))
 print(tf.exp(logits) / tf.reduce_sum(tf.exp(logits)))
 
+# loss functions
+# mse
+y_true = tf.constant([0.5, 0.8])
+y_pred = tf.constant([1.0, 1.0])
+print(tf.keras.losses.mse(y_true, y_pred))
+print(tf.reduce_mean(tf.square(y_true - y_pred)))
+
+# categorical_crossentropy
+y_true = [1, 0, 0]
+y_pred = [0.5, 0.4, 0.1]
+print(tf.keras.losses.categorical_crossentropy(y_true, y_pred))
+print(-tf.reduce_sum(y_true * tf.math.log(y_pred)))
+
+# softmax_cross_entropy_with_logits
+labels = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]]
+logits = [[4.0, 2.0, 1.0], [0.0, 5.0, 1.0]]  # 机器学习中，把未经softmax归一化的向量值称为logits
+print(tf.nn.softmax_cross_entropy_with_logits(labels=labels, logits=logits))
+print(-tf.reduce_sum(labels * tf.math.log(tf.nn.softmax(logits)), axis=1))
+
+# sparse_softmax_cross_entropy_with_logits
+labels = [0, 1]
+logits = [[4.0, 2.0, 1.0], [0.0, 5.0, 1.0]]
+print(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=labels, logits=logits))
+print(-tf.reduce_sum(tf.one_hot(labels, tf.shape(logits)[1]) * tf.math.log(tf.nn.softmax(logits)), axis=1))
