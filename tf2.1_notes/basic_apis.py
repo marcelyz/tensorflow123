@@ -125,3 +125,64 @@ for epoch in range(epoch):
     grads = tape.gradient(loss, w)
     w.assign_sub(lr * grads)
     print("After %s epoch, w is %f, loss is %s " % (epoch, w.numpy(), loss))
+
+# optimizer
+# sgd
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+with tf.GradientTape() as tape:
+    loss = tf.square(w + 1)
+grads = tape.gradient(loss, w)
+w.assign_sub(lr * grads)
+print("sgd w: ", w)
+
+# sgdm: sgd with momentum
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+beta = 0.9
+m_w = 0
+with tf.GradientTape() as tape:
+    loss = tf.square(w + 1)
+grads = tape.gradient(loss, w)
+m_w = beta * m_w + (1 - beta) * grads
+w.assign_sub(lr * m_w)
+print("sgdm w: ", w)
+
+# adagrad: adaptive learning rate sgd
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+v_w = 0
+with tf.GradientTape() as tape:
+    loss = tf.square(w + 1)
+grads = tape.gradient(loss, w)
+v_w += tf.square(grads)
+w.assign_sub(lr * grads / tf.sqrt(v_w))
+print("adagrad w: ", w)
+
+# RMSProp: Root Mean Square Prop
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+beta = 0.9
+v_w = 0
+with tf.GradientTape() as tape:
+    loss = tf.square(w + 1)
+grads = tape.gradient(loss, w)
+v_w = beta * v_w + (1 - beta) * tf.square(grads)
+w.assign_sub(lr * grads / tf.sqrt(v_w))
+print("RMSProp w: ", w)
+
+# adam: adaptive moment estimation
+w = tf.Variable(tf.constant(5, dtype=tf.float32))
+lr = 0.2
+v_w, v_b = 0, 0
+beta1, beta2 = 0.9, 0.999
+global_step = 1
+with tf.GradientTape() as tape:
+    loss = tf.square(w + 1)
+grads = tape.gradient(loss, w)
+m_w = beta1 * m_w + (1 - beta1) * grads
+v_w = beta2 * v_w + (1 - beta2) * grads
+m_w_correction = m_w / (1 - tf.pow(beta1, int(global_step)))
+v_w_correction = v_w / (1 - tf.pow(beta2, int(global_step)))
+w.assign_sub(lr * m_w_correction / tf.sqrt(v_w_correction))
+print("adam w: ", w)
