@@ -24,7 +24,6 @@ class IrisModel(Model):
 
 
 '''
-# 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Dense(3, activation="softmax", kernel_constraint=tf.keras.regularizers.l2())
 ])
