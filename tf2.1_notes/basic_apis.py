@@ -227,3 +227,29 @@ plt.xlabel("step")
 plt.ylabel("Learning Rate")
 plt.title("PieceConstantDecay")
 plt.show()
+
+# activate functions
+# sigmoid
+x = tf.constant([1., 2., 3.])
+print(tf.math.sigmoid(x))
+print(1/(1+tf.math.exp(-x)))
+
+# tanh
+x = tf.constant([-float("inf"), -5, -0.5, 1, 1.2, 2, 3, float("inf")])
+print(tf.math.tanh(x))
+print((tf.math.exp(x)-tf.math.exp(-x)) / (tf.math.exp(x)+tf.math.exp(-x)))
+
+# relu
+print(tf.nn.relu([-2., 0., -0., 3.]))
+print([i if i >= 0 else 0 for i in [-2., 0., -0., 3.]])
+
+# leaky_relu
+print(tf.nn.leaky_relu([-2., 0., -0., 3.], alpha=0.2))
+alpha = 0.2
+print([i if i >= 0 else alpha*i for i in [-2., 0., -0., 3.]])
+
+# softmax
+logits = tf.constant([4., 5., 1.])
+print(tf.nn.softmax(logits))
+print(tf.exp(logits) / tf.reduce_sum(tf.exp(logits)))
+
