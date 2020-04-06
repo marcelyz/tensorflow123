@@ -23,6 +23,13 @@ class IrisModel(Model):
         return y
 
 
+'''
+# 
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(3, activation="softmax", kernel_constraint=tf.keras.regularizers.l2())
+])
+'''
+
 model = IrisModel()
 
 model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.1),
@@ -30,4 +37,5 @@ model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.1),
               metrics=["sparse_categorical_accuracy"])
 
 model.fit(x_train, y_train, batch_size=32, epochs=500, validation_split=0.2, validation_freq=20)
+
 model.summary()
