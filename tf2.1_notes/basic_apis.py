@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from matplotlib import pyplot as plt
 
 # tensor: represent an array of 0 to n order
 c = np.arange(24).reshape(2, 4, 3)
@@ -126,7 +127,7 @@ for epoch in range(epoch):
     w.assign_sub(lr * grads)
     print("After %s epoch, w is %f, loss is %s " % (epoch, w.numpy(), loss))
 
-# optimizer
+# optimizers
 # sgd
 w = tf.Variable(tf.constant(5, dtype=tf.float32))
 lr = 0.2
@@ -186,3 +187,43 @@ m_w_correction = m_w / (1 - tf.pow(beta1, int(global_step)))
 v_w_correction = v_w / (1 - tf.pow(beta2, int(global_step)))
 w.assign_sub(lr * m_w_correction / tf.sqrt(v_w_correction))
 print("adam w: ", w)
+
+# learning rate strategy
+# ExponentialDecay
+N = 400
+lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+    0.5,
+    decay_steps=10,
+    decay_rate=0.9,
+    staircase=False)
+y = []
+for global_step in range(N):
+    lr = lr_schedule(global_step)
+    y.append(lr)
+x = range(N)
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, "r-")
+plt.ylim([0, max(plt.ylim())])
+plt.xlabel("step")
+plt.ylabel("Learning Rate")
+plt.title("ExponentialDecay")
+plt.show()
+
+# PiecewiseConstantDecay
+
+N = 400
+lr_schedule = tf.keras.optimizers.schedules.PiecewiseConstantDecay(
+    boundaries=[100, 200, 300],
+    values=[0.1, 0.05, 0.025, 0.001])
+y = []
+for global_step in range(N):
+    lr = lr_schedule(global_step)
+    y.append(lr)
+x = range(N)
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, "r-")
+plt.ylim([0, max(plt.ylim())])
+plt.xlabel("step")
+plt.ylabel("Learning Rate")
+plt.title("PieceConstantDecay")
+plt.show()
