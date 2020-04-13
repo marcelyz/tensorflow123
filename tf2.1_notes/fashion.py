@@ -1,6 +1,11 @@
+import os
 import tensorflow as tf
+import numpy as np
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras import Model
+from matplotlib import pyplot as plt
+
+np.set_printoptions(threshold=np.inf)
 
 fashion = tf.keras.datasets.fashion_mnist
 (x_train, y_train), (x_test, y_test) = fashion.load_data()
@@ -35,7 +40,42 @@ model.compile(optimizer="adam",
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=["sparse_categorical_accuracy"])
 
-model.fit(x_train, y_train, batch_size=32, epochs=5, validation_data=(x_test, y_test), validation_freq=1)
-
+# checkpoint
+checkpoint_save_path = "./checkpoint/fashion.ckpt"
+if os.path.exists(checkpoint_save_path + '.index'):
+    print('------------load the model------------')
+    model.load_weights(checkpoint_save_path)
+cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_save_path, save_weights_only=True,
+                                                 save_best_only=True)
+history = model.fit(x_train, y_train, batch_size=32, epochs=5, validation_data=(x_test, y_test), validation_freq=1,
+                    callbacks=[cp_callback])
 model.summary()
 
+# save weights
+print(model.trainable_variables)
+file = open('./weights.txt', 'w')
+for v in model.trainable_variables:
+    file.write(str(v.name) + '\n')
+    file.write(str(v.shape) + '\n')
+    file.write(str(v.numpy()) + '\n')
+file.close()
+
+
+# plt
+acc = history.history['sparse_categorical_accuracy']
+val_acc = history.history['val_sparse_categorical_accuracy']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+plt.subplot(1, 2, 1)
+plt.plot(acc, label='Training Accuracy')
+plt.plot(val_acc, label='Validation Accuracy')
+plt.title('Training and Validation Accuracy')
+plt.legend()
+
+plt.subplot(1, 2, 2)
+plt.plot(loss, label='Traning Loss')
+plt.plot(val_loss, label='Validation Loss')
+plt.title('Training and Validation Loss')
+plt.legend()
+plt.show()
