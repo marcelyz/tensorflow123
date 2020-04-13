@@ -46,7 +46,7 @@ for v in model.trainable_variables:
 file.close()
 
 
-# plt
+# show
 acc = history.history['sparse_categorical_accuracy']
 val_acc = history.history['val_sparse_categorical_accuracy']
 loss = history.history['loss']
