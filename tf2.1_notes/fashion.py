@@ -1,29 +1,14 @@
 import os
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.layers import Dense, Flatten
-from tensorflow.keras import Model
 from matplotlib import pyplot as plt
+from mnist import MnistModel
 
 np.set_printoptions(threshold=np.inf)
 
 fashion = tf.keras.datasets.fashion_mnist
 (x_train, y_train), (x_test, y_test) = fashion.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0
-
-
-class MnistModel(Model):
-    def __init__(self):
-        super(MnistModel, self).__init__()
-        self.flatten = Flatten()
-        self.d1 = Dense(128, activation="relu")
-        self.d2 = Dense(10, activation="softmax")
-
-    def call(self, x):
-        x = self.flatten(x)
-        x = self.d1(x)
-        y = self.d2(x)
-        return y
 
 
 '''

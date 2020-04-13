@@ -1,5 +1,4 @@
 import tensorflow as tf
-from matplotlib import pyplot as plt
 from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras import Model
 
