@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from matplotlib import pyplot as plt
-from inception10 import Inception10
+from resnet18 import ResNet18
 
 
 np.set_printoptions(threshold=np.inf)
@@ -20,7 +20,8 @@ print("x_train.shape: ", x_train.shape)
 # model = LeNet5()
 # model = AlexNet8()
 # model = VGG16()
-model = Inception10(num_blocks=2, num_classes=10)
+# model = Inception10(num_blocks=2, num_classes=10)
+model = ResNet18([2, 2, 2, 2])
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['sparse_categorical_accuracy'])
