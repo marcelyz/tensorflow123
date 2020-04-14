@@ -61,7 +61,7 @@ class VGG16(Model):
 
         self.flatten = Flatten()
         self.f1 = Dense(512, activation='relu')
-        self.d6 = Dropout(0,2)
+        self.d6 = Dropout(0.2)
         self.f2 = Dense(512, activation='relu')
         self.d7 = Dropout(0.2)
         self.f3 = Dense(10, activation='softmax')

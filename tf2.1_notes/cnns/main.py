@@ -1,11 +1,8 @@
 import tensorflow as tf
 import numpy as np
 from matplotlib import pyplot as plt
-from baseline import Baseline
-from lenet5 import LeNet5
-from alexnet8 import AlexNet8
-from vgg16 import VGG16
 from inception10 import Inception10
+
 
 np.set_printoptions(threshold=np.inf)
 

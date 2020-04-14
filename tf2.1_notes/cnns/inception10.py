@@ -38,6 +38,7 @@ class InceptionBlk(Model):  # blk: block
         x3_2 = self.c3_2(x3_1)
         x4_1 = self.p4_1(x)
         x4_2 = self.c4_2(x4_1)
+        # concat along axis=channel
         x = tf.concat([x1, x2_2, x3_2, x4_2], axis=3)
         return x
 
@@ -50,7 +51,7 @@ class Inception10(Model):
         self.num_blocks = num_blocks
         self.init_ch = init_ch
         self.c1 = ConvBNRelu(init_ch)
-        self.blocks = tf.keras.models.Sequential
+        self.blocks = tf.keras.models.Sequential()
         for block_id in range(num_blocks):
             for layer_id in range(2):
                 if layer_id == 0:
@@ -58,6 +59,7 @@ class Inception10(Model):
                 else:
                     block = InceptionBlk(self.out_channels, strides=1)
                 self.blocks.add(block)
+            self.out_channels *= 2
         self.p1 = GlobalAveragePooling2D()
         self.f1 = Dense(num_classes, activation='softmax')
 
