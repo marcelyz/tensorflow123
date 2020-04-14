@@ -48,19 +48,19 @@ class ResNet18(Model):
         super(ResNet18, self).__init__()
         self.num_blocks = len(block_list)
         self.block_list = block_list
-        self.out_filtes = initial_filters
-        self.c1 = Conv2D(self.out_filtes, (3, 3), strides=1, padding='same', use_bias=False)
+        self.out_filters = initial_filters
+        self.c1 = Conv2D(self.out_filters, (3, 3), strides=1, padding='same', use_bias=False)
         self.b1 = BatchNormalization()
         self.a1 = Activation('relu')
         self.blocks = tf.keras.models.Sequential()
         for block_id in range(len(block_list)):  # 第几个resnet block
             for layer_id in range(block_list[block_id]):  # 第几个卷积层
                 if block_id != 0 and layer_id == 0:  # 对除第一个block以外的每个block的输入进行下采样
-                    block = ResnetBlock(self.out_filtes, strides=2, residual_path=True)
+                    block = ResnetBlock(self.out_filters, strides=2, residual_path=True)
                 else:
-                    block = ResnetBlock(self.out_filtes, residual_path=False)
+                    block = ResnetBlock(self.out_filters, residual_path=False)
                 self.blocks.add(block)
-            self.out_filtes *= 2   # 下一个block的卷积核数是上一个block的2倍
+            self.out_filters *= 2   # 下一个block的卷积核数是上一个block的2倍
         self.p1 = GlobalAveragePooling2D()
         self.f1 = Dense(10, activation='softmax', kernel_regularizer=tf.keras.regularizers.l2())
 
