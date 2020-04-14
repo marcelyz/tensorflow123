@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from baseline import Baseline
 from lenet5 import LeNet5
 from alexnet8 import AlexNet8
+from vgg16 import VGG16
 
 np.set_printoptions(threshold=np.inf)
 
@@ -16,10 +17,11 @@ x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)  # 给数据增加一个�
 x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
 print("x_train.shape: ", x_train.shape)
 
-# model
+
 # model = Baseline()
 # model = LeNet5()
-model = AlexNet8()
+# model = AlexNet8()
+model = VGG16()
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['sparse_categorical_accuracy'])

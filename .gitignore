@@ -134,3 +134,4 @@ dmypy.json
 # tf
 checkpoint/
 *.txt
+*.DS_Store
