@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from baseline import Baseline
 from lenet5 import LeNet5
+from alexnet8 import AlexNet8
 
 np.set_printoptions(threshold=np.inf)
 
@@ -17,7 +18,8 @@ print("x_train.shape: ", x_train.shape)
 
 # model
 # model = Baseline()
-model = LeNet5()
+# model = LeNet5()
+model = AlexNet8()
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['sparse_categorical_accuracy'])
