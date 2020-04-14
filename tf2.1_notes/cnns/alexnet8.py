@@ -29,7 +29,7 @@ class AlexNet8(Model):
         self.d2 = Dropout(0.5)
         self.f3 = Dense(10, activation='softmax')
 
-    def call(self, x):
+    def call(self, x, training=None, mask=None):
         x = self.c1(x)
         x = self.b1(x)
         x = self.a1(x)

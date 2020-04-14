@@ -16,7 +16,7 @@ class LeNet5(Model):
         self.f2 = Dense(84, activation='sigmoid')
         self.f3 = Dense(10, activation='softmax')
 
-    def call(self, x):
+    def call(self, x, training=None, mask=None):
         x = self.c1(x)
         x = self.p1(x)
 

@@ -26,7 +26,7 @@ class MnistModel(Model):
         self.d1 = Dense(128, activation="relu")
         self.d2 = Dense(10, activation="softmax")
 
-    def call(self, x):
+    def call(self, x, training=None, mask=None):
         x = self.flatten(x)
         x = self.d1(x)
         y = self.d2(x)

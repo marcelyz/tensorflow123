@@ -18,7 +18,7 @@ class IrisModel(Model):
         super(IrisModel, self).__init__()
         self.d1 = Dense(3, activation="softmax", kernel_regularizer=tf.keras.regularizers.l2())
 
-    def call(self, x):
+    def call(self, x, training=None, mask=None):
         y = self.d1(x)
         return y
 

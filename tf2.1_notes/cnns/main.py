@@ -5,6 +5,7 @@ from baseline import Baseline
 from lenet5 import LeNet5
 from alexnet8 import AlexNet8
 from vgg16 import VGG16
+from inception10 import Inception10
 
 np.set_printoptions(threshold=np.inf)
 
@@ -21,7 +22,8 @@ print("x_train.shape: ", x_train.shape)
 # model = Baseline()
 # model = LeNet5()
 # model = AlexNet8()
-model = VGG16()
+# model = VGG16()
+model = Inception10(num_blocks=2, num_classes=10)
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['sparse_categorical_accuracy'])
