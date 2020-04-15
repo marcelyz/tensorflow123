@@ -17,11 +17,22 @@ print("x_train.shape: ", x_train.shape)
 
 
 # model = Baseline()
+
+# LeNet: 卷积网络开篇之作，共享卷积核，减少网络参数
 # model = LeNet5()
+
+# AlexNet: 使用relu激活函数，提升训练速度；使用Dropout，缓解过拟合
 # model = AlexNet8()
+
+# VGGNet: 小尺寸卷积核减少参数，网络结构规整，适合并行加速
 # model = VGG16()
+
+# InceptionNet: 一层内使用不同尺寸卷积核，提升感知力；使用批标准化，缓解梯度消失
 # model = Inception10(num_blocks=2, num_classes=10)
+
+# ResNet: 层间残差跳连，引入前方信息，缓解模型退化，使神经网络层数加深成为可能
 model = ResNet18([2, 2, 2, 2])
+
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['sparse_categorical_accuracy'])
