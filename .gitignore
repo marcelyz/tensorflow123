@@ -133,6 +133,6 @@ dmypy.json
 
 # tf
 checkpoint/
-*.txt
+*weights*
 *.DS_Store
 logs/
